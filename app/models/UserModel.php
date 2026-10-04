@@ -21,13 +21,13 @@ final class UserModel
         return $statement->fetch() ?: null;
     }
 
-    public function create(string $username, string $email, string $password, string $fullName): int
+    public function create(string $username, string $email, string $passwordHash, string $fullName): int
     {
         $statement = $this->db->prepare('INSERT INTO users (username, email, password, full_name) VALUES (:username, :email, :password, :full_name)');
         $statement->execute([
             'username' => $username,
             'email' => $email,
-            'password' => password_hash($password, PASSWORD_DEFAULT),
+            'password' => $passwordHash,
             'full_name' => $fullName,
         ]);
         return (int) $this->db->lastInsertId();
