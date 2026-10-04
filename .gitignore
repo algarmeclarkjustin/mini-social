@@ -1,0 +1,5 @@
+/public/uploads/profiles/*
+/public/uploads/posts/*
+!/public/uploads/.htaccess
+!/public/uploads/profiles/.gitkeep
+!/public/uploads/posts/.gitkeep
