@@ -38,7 +38,7 @@ final class AuthController
                 set_flash('error', 'That username is already taken.');
             } else {
                 try {
-                    $id = $this->users->create($username, $email, $password, $fullName);
+                    $id = $this->users->create($username, $email, password_hash($password, PASSWORD_DEFAULT), $fullName);
                     $_SESSION['user'] = $this->users->findById($id);
                     session_regenerate_id(true);
                     redirect(url(['page' => 'feed']));
