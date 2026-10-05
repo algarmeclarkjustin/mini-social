@@ -6,5 +6,6 @@
     <a href="<?= e(url(['page' => 'profile', 'username' => current_user()['username']])) ?>" aria-label="Profile"><i class="bi bi-person"></i></a>
 </nav>
 <?php endif; ?>
+<script src="public/assets/app.js" defer></script>
 </body>
 </html>

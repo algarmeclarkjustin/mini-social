@@ -12,9 +12,22 @@ final class LikeController
         $user = require_auth();
         verify_csrf();
         $postId = (int) ($_POST['post_id'] ?? 0);
-        if ($this->posts->find($postId)) {
+        $post = $this->posts->find($postId);
+        if ($post) {
             $this->likes->toggle($postId, (int) $user['id']);
         }
-        redirect(url(['page' => 'feed']));
+
+        if (strtolower($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'xmlhttprequest') {
+            header('Content-Type: application/json; charset=utf-8');
+            if (!$post) {
+                http_response_code(404);
+                echo json_encode(['error' => 'Post not found.']);
+                return;
+            }
+            echo json_encode($this->likes->stateForPost($postId, (int) $user['id']));
+            return;
+        }
+
+        redirect(url(['page' => 'feed']) . ($postId > 0 ? '#post-' . $postId : ''));
     }
 }

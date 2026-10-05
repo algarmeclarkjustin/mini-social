@@ -18,7 +18,7 @@ final class CommentController
         } else {
             $this->comments->create($postId, (int) $user['id'], $content);
         }
-        redirect(url(['page' => 'feed']));
+        redirect(url(['page' => 'feed']) . ($postId > 0 ? '#comment-form-' . $postId : ''));
     }
 
     public function update(): void
@@ -27,11 +27,12 @@ final class CommentController
         verify_csrf();
         $id = (int) ($_POST['id'] ?? 0);
         $comment = $this->ownedComment($id, (int) $user['id']);
+        $postId = (int) ($comment['post_id'] ?? 0);
         $content = trim((string) ($_POST['content'] ?? ''));
         if ($comment && $content !== '' && strlen($content) <= 500) {
             $this->comments->update($id, $content);
         }
-        redirect(url(['page' => 'feed']));
+        redirect(url(['page' => 'feed']) . ($postId > 0 ? '#post-' . $postId : ''));
     }
 
     public function delete(): void
@@ -39,13 +40,14 @@ final class CommentController
         $user = require_auth();
         verify_csrf();
         $comment = $this->comments->find((int) ($_POST['id'] ?? 0));
+        $postId = (int) ($comment['post_id'] ?? 0);
         $isAdmin = ($user['role'] ?? 'user') === 'admin';
         if ($comment && ($isAdmin || (int) $comment['user_id'] === (int) $user['id'])) {
             $this->comments->delete((int) $comment['id']);
         } else {
             set_flash('error', 'You can only delete your own comments.');
         }
-        redirect(url(['page' => 'feed']));
+        redirect(url(['page' => 'feed']) . ($postId > 0 ? '#post-' . $postId : ''));
     }
 
     private function ownedComment(int $id, int $userId): ?array

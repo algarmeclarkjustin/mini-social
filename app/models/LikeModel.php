@@ -18,4 +18,13 @@ final class LikeModel
             $statement->execute();
         }
     }
+
+    public function stateForPost(int $postId, int $userId): array
+    {
+        $statement = $this->db->prepare('SELECT COUNT(*) AS total, COALESCE(SUM(user_id = ?), 0) AS liked FROM likes WHERE post_id = ?');
+        $statement->bind_param('ii', $userId, $postId);
+        $statement->execute();
+        $state = $statement->get_result()->fetch_assoc();
+        return ['count' => (int) $state['total'], 'liked' => (bool) $state['liked']];
+    }
 }

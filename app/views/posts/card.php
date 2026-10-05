@@ -14,9 +14,9 @@
     </div>
     <p class="post-copy"><?= nl2br(e($post['content'])) ?></p>
     <?php if (!empty($post['image'])): ?><img class="post-image" src="public/uploads/<?= e($post['image']) ?>" alt="Image shared by <?= e($post['full_name']) ?>" loading="lazy"><?php endif; ?>
-    <div class="post-stats"><span><?= (int) $post['like_count'] ?> <?= (int) $post['like_count'] === 1 ? 'heart' : 'hearts' ?></span><a href="#comments-<?= (int) $post['id'] ?>"><?= (int) $post['comment_count'] ?> <?= (int) $post['comment_count'] === 1 ? 'reply' : 'replies' ?></a></div>
+    <div class="post-stats"><span class="like-count" data-like-count><span data-like-total><?= (int) $post['like_count'] ?></span> <span data-like-word><?= (int) $post['like_count'] === 1 ? 'heart' : 'hearts' ?></span></span><a href="#comments-<?= (int) $post['id'] ?>"><?= (int) $post['comment_count'] ?> <?= (int) $post['comment_count'] === 1 ? 'reply' : 'replies' ?></a></div>
     <div class="post-actions">
-        <form action="<?= e(url(['page' => 'like'])) ?>" method="post"><?= csrf_field() ?><input type="hidden" name="post_id" value="<?= (int) $post['id'] ?>"><button class="post-action <?= !empty($post['liked']) ? 'is-liked' : '' ?>" type="submit"><i class="bi <?= !empty($post['liked']) ? 'bi-heart-fill' : 'bi-heart' ?>"></i> Heart</button></form>
+        <form class="like-form" action="<?= e(url(['page' => 'like'])) ?>" method="post"><?= csrf_field() ?><input type="hidden" name="post_id" value="<?= (int) $post['id'] ?>"><button class="post-action <?= !empty($post['liked']) ? 'is-liked' : '' ?>" type="submit" aria-pressed="<?= !empty($post['liked']) ? 'true' : 'false' ?>"><i class="bi <?= !empty($post['liked']) ? 'bi-heart-fill' : 'bi-heart' ?>"></i> Heart</button></form>
         <a class="post-action" href="#comment-form-<?= (int) $post['id'] ?>"><i class="bi bi-chat"></i> Reply</a>
     </div>
     <div class="comments" id="comments-<?= (int) $post['id'] ?>">
