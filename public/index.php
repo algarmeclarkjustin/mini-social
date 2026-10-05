@@ -68,6 +68,12 @@ try {
         case 'search-users':
             (new SearchController($users))->users();
             break;
+        case 'admin':
+            (new AdminController($users, $posts))->index();
+            break;
+        case 'admin-post-delete':
+            (new AdminController($users, $posts))->deletePost();
+            break;
         default:
             http_response_code(404);
             render('errors/not_found', ['title' => 'Page not found']);

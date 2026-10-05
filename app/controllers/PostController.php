@@ -64,10 +64,13 @@ final class PostController
     {
         $user = require_auth();
         verify_csrf();
-        $post = $this->ownedPost((int) ($_POST['id'] ?? 0), (int) $user['id']);
-        if ($post) {
+        $post = $this->posts->find((int) ($_POST['id'] ?? 0));
+        $isAdmin = ($user['role'] ?? 'user') === 'admin';
+        if ($post && ($isAdmin || (int) $post['user_id'] === (int) $user['id'])) {
             $this->posts->delete((int) $post['id']);
-            set_flash('success', 'Your post has been deleted.');
+            set_flash('success', 'The post has been deleted.');
+        } else {
+            set_flash('error', 'You can only delete your own posts.');
         }
         redirect(url(['page' => 'feed']));
     }

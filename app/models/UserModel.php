@@ -25,7 +25,7 @@ final class UserModel
 
     public function findById(int $id): ?array
     {
-        $statement = $this->db->prepare('SELECT id, username, full_name, bio, profile_image, created_at FROM users WHERE id = ?');
+        $statement = $this->db->prepare('SELECT id, username, full_name, bio, profile_image, role, created_at FROM users WHERE id = ?');
         $statement->bind_param('i', $id);
         $statement->execute();
         return $statement->get_result()->fetch_assoc() ?: null;
@@ -60,6 +60,20 @@ final class UserModel
         $statement = $this->db->prepare('SELECT id, username, full_name, bio, profile_image FROM users WHERE username LIKE ? OR full_name LIKE ? ORDER BY full_name LIMIT 30');
         $wildcardQuery = '%' . $query . '%';
         $statement->bind_param('ss', $wildcardQuery, $wildcardQuery);
+        $statement->execute();
+        return $statement->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function countAll(): int
+    {
+        $statement = $this->db->prepare('SELECT COUNT(*) AS total FROM users');
+        $statement->execute();
+        return (int) $statement->get_result()->fetch_assoc()['total'];
+    }
+
+    public function adminList(): array
+    {
+        $statement = $this->db->prepare('SELECT id, username, email, full_name, role, created_at FROM users ORDER BY created_at DESC LIMIT 100');
         $statement->execute();
         return $statement->get_result()->fetch_all(MYSQLI_ASSOC);
     }

@@ -38,9 +38,12 @@ final class CommentController
     {
         $user = require_auth();
         verify_csrf();
-        $comment = $this->ownedComment((int) ($_POST['id'] ?? 0), (int) $user['id']);
-        if ($comment) {
+        $comment = $this->comments->find((int) ($_POST['id'] ?? 0));
+        $isAdmin = ($user['role'] ?? 'user') === 'admin';
+        if ($comment && ($isAdmin || (int) $comment['user_id'] === (int) $user['id'])) {
             $this->comments->delete((int) $comment['id']);
+        } else {
+            set_flash('error', 'You can only delete your own comments.');
         }
         redirect(url(['page' => 'feed']));
     }

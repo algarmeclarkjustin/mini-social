@@ -33,6 +33,17 @@ function require_auth(): array
     return $user;
 }
 
+function require_admin(): array
+{
+    $user = require_auth();
+    if (($user['role'] ?? 'user') !== 'admin') {
+        set_flash('error', 'Admin access only.');
+        redirect(url(['page' => 'feed']));
+    }
+
+    return $user;
+}
+
 function set_flash(string $type, string $message): void
 {
     $_SESSION['flash'] = ['type' => $type, 'message' => $message];

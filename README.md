@@ -19,6 +19,8 @@ The default local database connection is host `127.0.0.1`, database `social_app`
 
 The SQL file includes three demo accounts, posts, comments, and likes. Each demo account uses the password `commonplace123`.
 
+The administrator uses username `admin` and password `MiniAdmin2026!`. The single SQL file also adds the admin role to an existing `users` table without deleting its data.
+
 ## Project Structure
 
 ```text
@@ -34,7 +36,7 @@ public/
   uploads/       User-uploaded profile and post images
   index.php      Front controller and route table
 sql/
-  social_app.sql MySQL schema and sample data
+  social_app.sql MySQL schema, upgrade, and sample data
   ERD.md         Mermaid entity relationship diagram
 ```
 

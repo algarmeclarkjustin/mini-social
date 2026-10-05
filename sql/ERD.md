@@ -16,6 +16,7 @@ erDiagram
         varchar full_name
         varchar bio
         varchar profile_image
+        enum role
         timestamp created_at
     }
     POSTS {

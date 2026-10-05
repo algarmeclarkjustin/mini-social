@@ -9,11 +9,28 @@ CREATE TABLE IF NOT EXISTS users (
     full_name VARCHAR(80) NOT NULL,
     bio VARCHAR(240) NOT NULL DEFAULT '',
     profile_image VARCHAR(255) NULL,
+    role ENUM('user', 'admin') NOT NULL DEFAULT 'user',
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     UNIQUE KEY uq_users_username (username),
     UNIQUE KEY uq_users_email (email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+SET @role_column_exists = (
+    SELECT COUNT(*)
+    FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE TABLE_SCHEMA = DATABASE()
+      AND TABLE_NAME = 'users'
+      AND COLUMN_NAME = 'role'
+);
+SET @role_migration = IF(
+    @role_column_exists = 0,
+    'ALTER TABLE users ADD COLUMN role ENUM(''user'', ''admin'') NOT NULL DEFAULT ''user''',
+    'SELECT 1'
+);
+PREPARE ensure_user_role FROM @role_migration;
+EXECUTE ensure_user_role;
+DEALLOCATE PREPARE ensure_user_role;
 
 CREATE TABLE IF NOT EXISTS posts (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -53,10 +70,14 @@ CREATE TABLE IF NOT EXISTS likes (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Demo accounts use the password: commonplace123
-INSERT IGNORE INTO users (id, username, email, password, full_name, bio) VALUES
-(1, 'maya', 'maya@example.test', '$2y$10$QZ8jb4NWQgyGymle3XFlG.GX9HuNdsglrYRSik5B7i4J1koeW146a', 'Maya Santos', 'Collecting little moments, good books, and new places.'),
-(2, 'eli', 'eli@example.test', '$2y$10$QZ8jb4NWQgyGymle3XFlG.GX9HuNdsglrYRSik5B7i4J1koeW146a', 'Eli Navarro', 'Usually outside. Always up for a long conversation.'),
-(3, 'samira', 'samira@example.test', '$2y$10$QZ8jb4NWQgyGymle3XFlG.GX9HuNdsglrYRSik5B7i4J1koeW146a', 'Samira Lim', 'Making things slowly and sharing them often.');
+INSERT IGNORE INTO users (id, username, email, password, full_name, bio, role) VALUES
+(1, 'maya', 'maya@example.test', '$2y$10$QZ8jb4NWQgyGymle3XFlG.GX9HuNdsglrYRSik5B7i4J1koeW146a', 'Maya Santos', 'Collecting little moments, good books, and new places.', 'user'),
+(2, 'eli', 'eli@example.test', '$2y$10$QZ8jb4NWQgyGymle3XFlG.GX9HuNdsglrYRSik5B7i4J1koeW146a', 'Eli Navarro', 'Usually outside. Always up for a long conversation.', 'user'),
+(3, 'samira', 'samira@example.test', '$2y$10$QZ8jb4NWQgyGymle3XFlG.GX9HuNdsglrYRSik5B7i4J1koeW146a', 'Samira Lim', 'Making things slowly and sharing them often.', 'user');
+
+-- Admin demo account: username admin, password MiniAdmin2026!
+INSERT IGNORE INTO users (username, email, password, full_name, role) VALUES
+('admin', 'admin@mini-social.local', '$2y$10$Djo/x/GAwkrDP4GfFvt7BuCwhdUEPQiwo/V/GjNklHcsVPRJstejK', 'Mini Social Admin', 'admin');
 
 INSERT IGNORE INTO posts (id, user_id, content, created_at) VALUES
 (1, 1, 'Took the long way home today and found a tiny bookshop tucked behind the market. Sometimes the best plans are the ones you didn’t make.', DATE_SUB(NOW(), INTERVAL 3 HOUR)),

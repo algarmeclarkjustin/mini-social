@@ -26,6 +26,7 @@
         </form>
         <nav class="top-actions" aria-label="Account navigation">
             <a class="icon-link" href="<?= e(url(['page' => 'feed'])) ?>" aria-label="Home" title="Home"><i class="bi bi-house-door"></i></a>
+            <?php if (($viewer['role'] ?? 'user') === 'admin'): ?><a class="admin-nav-link" href="<?= e(url(['page' => 'admin'])) ?>"><i class="bi bi-shield-check"></i> Admin</a><?php endif; ?>
             <a class="viewer-link" href="<?= e(url(['page' => 'profile', 'username' => $viewer['username']])) ?>">
                 <?php if (!empty($viewer['profile_image'])): ?><img class="avatar avatar-small" src="uploads/<?= e($viewer['profile_image']) ?>" alt="">
                 <?php else: ?><span class="avatar avatar-small avatar-initial"><?= e(strtoupper(substr($viewer['full_name'] ?? $viewer['username'], 0, 1))) ?></span><?php endif; ?>
