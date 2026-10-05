@@ -1,7 +1,7 @@
 <article class="post" id="post-<?= (int) $post['id'] ?>">
     <div class="post-head">
         <a class="post-author" href="<?= e(url(['page' => 'profile', 'username' => $post['username']])) ?>">
-            <?php if (!empty($post['profile_image'])): ?><img class="avatar" src="uploads/<?= e($post['profile_image']) ?>" alt="">
+            <?php if (!empty($post['profile_image'])): ?><img class="avatar" src="public/uploads/<?= e($post['profile_image']) ?>" alt="">
             <?php else: ?><span class="avatar avatar-initial"><?= e(strtoupper(substr($post['full_name'], 0, 1))) ?></span><?php endif; ?>
             <span><strong><?= e($post['full_name']) ?></strong><small>@<?= e($post['username']) ?> <span class="dot-separator">·</span> <?= e(date('M j, g:i a', strtotime($post['created_at']))) ?></small></span>
         </a>
@@ -13,10 +13,10 @@
         <?php endif; ?>
     </div>
     <p class="post-copy"><?= nl2br(e($post['content'])) ?></p>
-    <?php if (!empty($post['image'])): ?><img class="post-image" src="uploads/<?= e($post['image']) ?>" alt="Image shared by <?= e($post['full_name']) ?>" loading="lazy"><?php endif; ?>
-    <div class="post-stats"><span><?= (int) $post['like_count'] ?> <?= (int) $post['like_count'] === 1 ? 'appreciation' : 'appreciations' ?></span><a href="#comments-<?= (int) $post['id'] ?>"><?= (int) $post['comment_count'] ?> <?= (int) $post['comment_count'] === 1 ? 'reply' : 'replies' ?></a></div>
+    <?php if (!empty($post['image'])): ?><img class="post-image" src="public/uploads/<?= e($post['image']) ?>" alt="Image shared by <?= e($post['full_name']) ?>" loading="lazy"><?php endif; ?>
+    <div class="post-stats"><span><?= (int) $post['like_count'] ?> <?= (int) $post['like_count'] === 1 ? 'heart' : 'hearts' ?></span><a href="#comments-<?= (int) $post['id'] ?>"><?= (int) $post['comment_count'] ?> <?= (int) $post['comment_count'] === 1 ? 'reply' : 'replies' ?></a></div>
     <div class="post-actions">
-        <form action="<?= e(url(['page' => 'like'])) ?>" method="post"><?= csrf_field() ?><input type="hidden" name="post_id" value="<?= (int) $post['id'] ?>"><button class="post-action <?= !empty($post['liked']) ? 'is-liked' : '' ?>" type="submit"><i class="bi <?= !empty($post['liked']) ? 'bi-heart-fill' : 'bi-heart' ?>"></i> Appreciate</button></form>
+        <form action="<?= e(url(['page' => 'like'])) ?>" method="post"><?= csrf_field() ?><input type="hidden" name="post_id" value="<?= (int) $post['id'] ?>"><button class="post-action <?= !empty($post['liked']) ? 'is-liked' : '' ?>" type="submit"><i class="bi <?= !empty($post['liked']) ? 'bi-heart-fill' : 'bi-heart' ?>"></i> Heart</button></form>
         <a class="post-action" href="#comment-form-<?= (int) $post['id'] ?>"><i class="bi bi-chat"></i> Reply</a>
     </div>
     <div class="comments" id="comments-<?= (int) $post['id'] ?>">

@@ -1,0 +1,3 @@
+Options -Indexes
+RewriteEngine On
+RewriteRule ^(?:app|config|sql|\.git)(?:/|$) - [F,L,NC]

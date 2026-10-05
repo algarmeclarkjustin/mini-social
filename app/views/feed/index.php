@@ -17,7 +17,7 @@
         <form class="composer" action="<?= e(url(['page' => 'post-create'])) ?>" method="post" enctype="multipart/form-data">
             <?= csrf_field() ?>
             <div class="composer-top">
-                <?php if (!empty($viewer['profile_image'])): ?><img class="avatar" src="uploads/<?= e($viewer['profile_image']) ?>" alt="">
+                <?php if (!empty($viewer['profile_image'])): ?><img class="avatar" src="public/uploads/<?= e($viewer['profile_image']) ?>" alt="">
                 <?php else: ?><span class="avatar avatar-initial"><?= e(strtoupper(substr($viewer['full_name'] ?? $viewer['username'], 0, 1))) ?></span><?php endif; ?>
                 <textarea name="content" rows="2" maxlength="2000" placeholder="What’s on your mind, <?= e(explode(' ', $viewer['full_name'] ?? $viewer['username'])[0]) ?>?" required></textarea>
             </div>
@@ -42,7 +42,7 @@
             <div class="aside-heading"><span class="eyebrow">Around here</span><a href="<?= e(url(['page' => 'search-users'])) ?>">Find more</a></div>
             <?php foreach (array_slice($suggestions, 0, 5) as $person): if ((int) $person['id'] === (int) $viewer['id']) continue; ?>
                 <a class="person-row" href="<?= e(url(['page' => 'profile', 'username' => $person['username']])) ?>">
-                    <?php if (!empty($person['profile_image'])): ?><img class="avatar avatar-small" src="uploads/<?= e($person['profile_image']) ?>" alt="">
+                    <?php if (!empty($person['profile_image'])): ?><img class="avatar avatar-small" src="public/uploads/<?= e($person['profile_image']) ?>" alt="">
                     <?php else: ?><span class="avatar avatar-small avatar-initial"><?= e(strtoupper(substr($person['full_name'], 0, 1))) ?></span><?php endif; ?>
                     <span class="person-copy"><strong><?= e($person['full_name']) ?></strong><small>@<?= e($person['username']) ?></small></span><i class="bi bi-arrow-up-right"></i>
                 </a>

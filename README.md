@@ -13,7 +13,7 @@ A PHP MVC mini social network for the Web Systems and Technologies final project
 1. Place this folder at `C:\xampp\htdocs\mini-social`.
 2. Start Apache and MySQL from the XAMPP Control Panel.
 3. Open phpMyAdmin at `http://localhost/phpmyadmin` and import `sql/social_app.sql`.
-4. Visit `http://localhost/mini-social/public/`.
+4. Visit `http://localhost/mini-social/`.
 
 The default local database connection is host `127.0.0.1`, database `social_app`, user `root`, and an empty password. Set `DB_HOST`, `DB_NAME`, `DB_USER`, and `DB_PASS` environment variables to override it.
 
@@ -31,10 +31,11 @@ app/
   helpers.php    Shared escaping, CSRF, sessions, uploads, rendering
 config/
   database.php   MySQLi connection
+index.php        Root front controller
 public/
   assets/        Responsive CSS
   uploads/       User-uploaded profile and post images
-  index.php      Front controller and route table
+  index.php      Redirect for the previous public URL
 sql/
   social_app.sql MySQL schema, upgrade, and sample data
   ERD.md         Mermaid entity relationship diagram

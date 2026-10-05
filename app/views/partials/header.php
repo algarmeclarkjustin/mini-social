@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="assets/app.css">
+    <link rel="stylesheet" href="public/assets/app.css">
 </head>
 <body class="<?= in_array((string) ($_GET['page'] ?? ''), ['login', 'register'], true) ? 'auth-body' : '' ?>">
 <header class="topbar">
@@ -28,7 +28,7 @@
             <a class="icon-link" href="<?= e(url(['page' => 'feed'])) ?>" aria-label="Home" title="Home"><i class="bi bi-house-door"></i></a>
             <?php if (($viewer['role'] ?? 'user') === 'admin'): ?><a class="admin-nav-link" href="<?= e(url(['page' => 'admin'])) ?>"><i class="bi bi-shield-check"></i> Admin</a><?php endif; ?>
             <a class="viewer-link" href="<?= e(url(['page' => 'profile', 'username' => $viewer['username']])) ?>">
-                <?php if (!empty($viewer['profile_image'])): ?><img class="avatar avatar-small" src="uploads/<?= e($viewer['profile_image']) ?>" alt="">
+                <?php if (!empty($viewer['profile_image'])): ?><img class="avatar avatar-small" src="public/uploads/<?= e($viewer['profile_image']) ?>" alt="">
                 <?php else: ?><span class="avatar avatar-small avatar-initial"><?= e(strtoupper(substr($viewer['full_name'] ?? $viewer['username'], 0, 1))) ?></span><?php endif; ?>
                 <span><?= e($viewer['username']) ?></span>
             </a>
