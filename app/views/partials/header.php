@@ -4,18 +4,18 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f4f7f3">
-    <title><?= e($title ?? 'Commonplace') ?> · Commonplace</title>
+    <meta name="theme-color" content="#ffffff">
+    <title><?= e($title ?? 'Mini Social') ?> · Mini Social</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="assets/app.css">
 </head>
-<body>
+<body class="<?= in_array((string) ($_GET['page'] ?? ''), ['login', 'register'], true) ? 'auth-body' : '' ?>">
 <header class="topbar">
-    <a class="brand" href="<?= e(url(['page' => $viewer ? 'feed' : 'login'])) ?>" aria-label="Commonplace home">
-        <span class="brand-mark"><i class="bi bi-asterisk"></i></span><span>commonplace</span>
+    <a class="brand" href="<?= e(url(['page' => $viewer ? 'feed' : 'login'])) ?>" aria-label="Mini Social home">
+        <span class="brand-mark"><i class="bi bi-people-fill"></i></span><span>mini-social</span>
     </a>
     <?php if ($viewer): ?>
         <form class="top-search" action="index.php" method="get">

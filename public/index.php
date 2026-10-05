@@ -72,7 +72,7 @@ try {
             http_response_code(404);
             render('errors/not_found', ['title' => 'Page not found']);
     }
-} catch (PDOException $exception) {
+} catch (mysqli_sql_exception $exception) {
     http_response_code(500);
     render('errors/database', ['title' => 'Database connection needed']);
 }

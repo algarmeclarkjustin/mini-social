@@ -11,8 +11,8 @@ final class AuthController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             verify_csrf();
-            $username = trim((string) ($_POST['username'] ?? ''));
-            $user = $this->users->findByUsername($username);
+            $login = trim((string) ($_POST['login'] ?? ''));
+            $user = $this->users->findByLogin($login);
             if ($user && password_verify((string) ($_POST['password'] ?? ''), $user['password'])) {
                 session_regenerate_id(true);
                 unset($user['password'], $user['email']);
@@ -42,7 +42,7 @@ final class AuthController
                     $_SESSION['user'] = $this->users->findById($id);
                     session_regenerate_id(true);
                     redirect(url(['page' => 'feed']));
-                } catch (PDOException $exception) {
+                } catch (mysqli_sql_exception $exception) {
                     set_flash('error', 'That email address is already registered.');
                 }
             }

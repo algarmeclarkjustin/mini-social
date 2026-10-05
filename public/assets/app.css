@@ -1,6 +1,6 @@
 :root {
     color-scheme: light;
-    --paper: #f4f7f3;
+    --paper: #ffffff;
     --surface: #ffffff;
     --ink: #202d29;
     --muted: #718078;
@@ -208,6 +208,23 @@ h1, h2 { font-weight: 500; letter-spacing: 0; }
 .error-page p { margin: 0 auto 20px; color: var(--muted); font-size: 13px; }
 .error-page code { padding: 2px 5px; border-radius: 3px; background: var(--soft); color: var(--green-deep); font-size: 11px; }
 .mobile-nav { display: none; }
+
+/* Keep sign-in focused and centered on a plain white page. */
+.auth-body { background: #fff; }
+.auth-body .topbar { justify-content: center; height: 76px; border-bottom: 0; background: #fff; }
+.auth-body .brand-mark { border-radius: 7px; background: var(--green); }
+.auth-body .page-shell { display: flex; justify-content: center; align-items: center; width: 100%; min-height: calc(100vh - 76px); padding: 0 24px 42px; }
+.auth-body .auth-layout { display: block; width: min(100%, 420px); min-height: 0; overflow: visible; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.auth-body .auth-story { display: none; }
+.auth-body .auth-panel { max-width: none; padding: 0; }
+.auth-body .auth-heading h2 { font-size: 36px; }
+.auth-body .auth-heading p { font-size: 14px; }
+.auth-body .form-stack { gap: 16px; }
+.auth-body .form-stack input { background: #fff; }
+.auth-body .button-wide { min-height: 47px; }
+body:not(.auth-body) { background: #fff; }
+.topbar { background: #fff; }
+.feed-layout { gap: 34px; }
 
 @media (max-width: 1080px) {
     .feed-layout { grid-template-columns: 155px minmax(0, 650px); gap: 30px; justify-content: center; }

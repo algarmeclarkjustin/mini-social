@@ -1,10 +1,10 @@
-# Commonplace Mini Social
+# Mini Social
 
 A PHP MVC mini social network for the Web Systems and Technologies final project. It includes session authentication, profiles, a chronological feed, image posts, comments, likes, and user search.
 
 ## Requirements
 
-- PHP 8.1+ with PDO MySQL and Fileinfo enabled
+- PHP 8.1+ with MySQLi and Fileinfo enabled
 - MySQL 8.0+ or MariaDB 10.4+
 - XAMPP, or an equivalent PHP/MySQL environment
 
@@ -24,11 +24,11 @@ The SQL file includes three demo accounts, posts, comments, and likes. Each demo
 ```text
 app/
   controllers/   Request handling, validation, authorization
-  models/        PDO data access
+  models/        MySQLi data access
   views/         PHP presentation templates
   helpers.php    Shared escaping, CSRF, sessions, uploads, rendering
 config/
-  database.php   PDO connection
+  database.php   MySQLi connection
 public/
   assets/        Responsive CSS
   uploads/       User-uploaded profile and post images

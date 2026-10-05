@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-function database(): PDO
+function database(): mysqli
 {
     static $connection;
 
-    if ($connection instanceof PDO) {
+    if ($connection instanceof mysqli) {
         return $connection;
     }
 
@@ -13,13 +13,9 @@ function database(): PDO
     $database = getenv('DB_NAME') ?: 'social_app';
     $username = getenv('DB_USER') ?: 'root';
     $password = getenv('DB_PASS') ?: '';
-    $dsn = "mysql:host={$host};dbname={$database};charset=utf8mb4";
-
-    $connection = new PDO($dsn, $username, $password, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::ATTR_EMULATE_PREPARES => false,
-    ]);
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+    $connection = new mysqli($host, $username, $password, $database);
+    $connection->set_charset('utf8mb4');
 
     return $connection;
 }

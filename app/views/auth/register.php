@@ -1,12 +1,6 @@
 <section class="auth-layout">
-    <div class="auth-story">
-        <div class="story-note"><span class="eyebrow">Your space, your pace</span><span class="story-spark"><i class="bi bi-sun"></i></span></div>
-        <h1>Start with<br>a <em>hello.</em></h1>
-        <p>Bring your whole self. Find your people. Keep the good conversations going.</p>
-        <div class="story-foot"><span class="story-line"></span><span>Small circles. Real connection.</span></div>
-    </div>
     <div class="auth-panel">
-        <div class="auth-heading"><span class="eyebrow">Join the conversation</span><h2>Make yourself at home.</h2><p>It only takes a moment to get started.</p></div>
+        <div class="auth-heading"><span class="eyebrow">Create account</span><h2>Join Mini Social</h2><p>Enter your details to get started.</p></div>
         <form class="form-stack" action="<?= e(url(['page' => 'register'])) ?>" method="post">
             <?= csrf_field() ?>
             <label>Your name<input name="full_name" type="text" maxlength="80" autocomplete="name" required></label>
