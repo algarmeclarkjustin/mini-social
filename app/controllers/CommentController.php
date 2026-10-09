@@ -14,9 +14,31 @@ final class CommentController
         $postId = (int) ($_POST['post_id'] ?? 0);
         $content = trim((string) ($_POST['content'] ?? ''));
         if ($content === '' || strlen($content) > 500) {
+            if (strtolower($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'xmlhttprequest') {
+                http_response_code(422);
+                header('Content-Type: application/json; charset=utf-8');
+                echo json_encode(['error' => 'Comments must contain 1-500 characters.']);
+                return;
+            }
             set_flash('error', 'Comments must contain 1-500 characters.');
         } else {
-            $this->comments->create($postId, (int) $user['id'], $content);
+            $commentId = $this->comments->create($postId, (int) $user['id'], $content);
+            if (strtolower($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'xmlhttprequest') {
+                $comment = $this->comments->findWithAuthor($commentId);
+                if (!$comment) {
+                    throw new RuntimeException('The new comment could not be retrieved.');
+                }
+                header('Content-Type: application/json; charset=utf-8');
+                echo json_encode([
+                    'id' => (int) $comment['id'],
+                    'content' => $comment['content'],
+                    'full_name' => $comment['full_name'],
+                    'username' => $comment['username'],
+                    'created_at' => date('M j', strtotime($comment['created_at'])),
+                    'profile_url' => url(['page' => 'profile', 'username' => $comment['username']]),
+                ]);
+                return;
+            }
         }
         redirect(url(['page' => 'feed']) . ($postId > 0 ? '#comment-form-' . $postId : ''));
     }

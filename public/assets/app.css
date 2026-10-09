@@ -64,18 +64,18 @@ button {
 .brand-mark {
   display: block;
   position: relative;
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   flex: 0 0 auto;
   overflow: hidden;
   border-radius: 10px;
 }
 .brand-mark img {
   position: absolute;
-  top: -15px;
-  left: -26px;
-  width: 90px;
-  height: 90px;
+  top: -18px;
+  left: -31px;
+  width: 108px;
+  height: 108px;
   max-width: none;
 }
 .top-search {
@@ -570,6 +570,7 @@ h2 {
 .comment-text {
   font-size: 12px;
   overflow-wrap: anywhere;
+  white-space: pre-wrap;
 }
 .comment-edit {
   display: flex;
@@ -1372,14 +1373,14 @@ body:not(.auth-body) {
     font-size: 17px;
   }
   .brand-mark {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
   }
   .brand-mark img {
-    top: -14px;
-    left: -23px;
-    width: 81px;
-    height: 81px;
+    top: -15px;
+    left: -26px;
+    width: 90px;
+    height: 90px;
   }
   .top-search {
     max-width: none;

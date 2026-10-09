@@ -1,4 +1,81 @@
+document.addEventListener('click', (event) => {
+  const replyLink = event.target.closest('a[href^="#comment-form-"]');
+  if (!replyLink) return;
+
+  const form = document.getElementById(replyLink.hash.slice(1));
+  const input = form?.querySelector('input[name="content"]');
+  if (!input) return;
+
+  event.preventDefault();
+  input.focus({ preventScroll: true });
+});
+
 document.addEventListener('submit', async (event) => {
+  const commentForm = event.target.closest('form.comment-form');
+  if (commentForm) {
+    if (commentForm.dataset.pending === 'true') {
+      event.preventDefault();
+      return;
+    }
+
+    event.preventDefault();
+    commentForm.dataset.pending = 'true';
+    const submitButton = commentForm.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+
+    try {
+      const response = await fetch(commentForm.action, {
+        method: 'POST',
+        body: new FormData(commentForm),
+        credentials: 'same-origin',
+        headers: {
+          Accept: 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+        },
+      });
+      if (!response.ok) throw new Error('Reply failed');
+
+      const comment = await response.json();
+      const post = commentForm.closest('.post');
+      const row = document.createElement('div');
+      row.className = 'comment-row';
+
+      const avatar = document.createElement('span');
+      avatar.className = 'comment-avatar';
+      avatar.textContent = comment.full_name.charAt(0).toUpperCase();
+
+      const content = document.createElement('div');
+      content.className = 'comment-content';
+      const heading = document.createElement('p');
+      const profileLink = document.createElement('a');
+      profileLink.href = comment.profile_url;
+      const name = document.createElement('strong');
+      name.textContent = comment.full_name;
+      profileLink.append(name);
+      const date = document.createElement('span');
+      date.textContent = comment.created_at;
+      heading.append(profileLink, document.createTextNode(' '), date);
+
+      const text = document.createElement('div');
+      text.className = 'comment-text';
+      text.textContent = comment.content;
+      content.append(heading, text);
+      row.append(avatar, content);
+      commentForm.before(row);
+
+      const count = Number(post.querySelector('[data-comment-total]').textContent) + 1;
+      post.querySelector('[data-comment-total]').textContent = count;
+      post.querySelector('[data-comment-word]').textContent = count === 1 ? 'reply' : 'replies';
+      commentForm.reset();
+    } catch {
+      commentForm.submit();
+    } finally {
+      delete commentForm.dataset.pending;
+      submitButton.disabled = false;
+    }
+    return;
+  }
+
   const form = event.target.closest('form.like-form');
   if (!form || form.dataset.pending === 'true') return;
 
