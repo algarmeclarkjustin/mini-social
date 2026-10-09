@@ -62,14 +62,21 @@ button {
   white-space: nowrap;
 }
 .brand-mark {
-  display: grid;
-  place-items: center;
-  width: 31px;
-  height: 31px;
+  display: block;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  overflow: hidden;
   border-radius: 10px;
-  background: var(--green);
-  color: white;
-  font-size: 15px;
+}
+.brand-mark img {
+  position: absolute;
+  top: -15px;
+  left: -26px;
+  width: 90px;
+  height: 90px;
+  max-width: none;
 }
 .top-search {
   display: flex;
@@ -1132,8 +1139,7 @@ h2 {
   background: #fff;
 }
 .auth-body .brand-mark {
-  border-radius: 7px;
-  background: var(--green);
+  background: none;
 }
 .auth-body .page-shell {
   display: flex;
@@ -1366,8 +1372,14 @@ body:not(.auth-body) {
     font-size: 17px;
   }
   .brand-mark {
-    width: 29px;
-    height: 29px;
+    width: 36px;
+    height: 36px;
+  }
+  .brand-mark img {
+    top: -14px;
+    left: -23px;
+    width: 81px;
+    height: 81px;
   }
   .top-search {
     max-width: none;

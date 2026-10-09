@@ -1,21 +1,23 @@
-<?php $flash = take_flash(); $viewer = current_user(); ?>
+<?php $flash = take_flash(); $viewer = current_user(); $currentPage = (string) ($_GET['page'] ?? ($viewer ? 'feed' : 'login')); ?>
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#ffffff">
-    <title><?= e($title ?? 'Mini Social') ?> · Mini Social</title>
+    <title><?= e($title ?? 'MVXB ChatSpace') ?> · MVXB ChatSpace</title>
+    <link rel="icon" type="image/jpeg" href="files/MVXB%20Logo.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="public/assets/app.css">
 </head>
-<body class="<?= in_array((string) ($_GET['page'] ?? ''), ['login', 'register'], true) ? 'auth-body' : '' ?>">
+<body class="<?= in_array($currentPage, ['login', 'register'], true) ? 'auth-body' : '' ?>">
 <header class="topbar">
-    <a class="brand" href="<?= e(url(['page' => $viewer ? 'feed' : 'login'])) ?>" aria-label="Mini Social home">
-        <span class="brand-mark"><i class="bi bi-people-fill"></i></span><span>mini-social</span>
+    <a class="brand" href="<?= e(url(['page' => $viewer ? 'feed' : 'login'])) ?>" aria-label="MVXB ChatSpace home">
+        <span class="brand-mark" aria-hidden="true"><img src="files/MVXB%20Logo.jpg" alt=""></span>
+        <span>MVXB ChatSpace</span>
     </a>
     <?php if ($viewer): ?>
         <form class="top-search" action="index.php" method="get">
